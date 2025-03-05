@@ -98,7 +98,7 @@ module.exports = withMT({
         );
         addComponents({
           '.headerShadow':{
-            boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)'
+            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.3)'
           },
           // First page button animation 
           '.buttonAnimated':{

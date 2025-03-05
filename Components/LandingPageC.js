@@ -46,8 +46,8 @@ const LandingPageC = () => {
                  <p className='text-[16px] text-secondary700 my-8'>تفکرات قالبی اکثر افراد جامعه بر نابهنجار و بد ذات بودن زندانی شکل گرفته است در حالی که بسیاری از آنان را افراد شریفی تشکیل می دهند که به واسطه اشتباهات محاسباتی خود در رفتار فردی، اجتماعی، اقتصادی و ناآگاهی از قوانین و مقررات ، زندان را تجربه می کنند. و خانواده های آنان نیز مجموعه افراد بی گناهی هستند که بواسطه اشتباه سرپرست خود، محکوم به تحمل سختی ها و مشکلاتی من جمله  فقر مالی و ناتوانی در تامین معاش و مخارج زندگی می باشند.</p>
              </div>
              {/* what they need-------------------------- */}
-             <span className='mr-[16px] lg:mr-[120px] text-[20px] '>آنچه میخواهند <span className='text-secondary500'> (کمک های نقدی)</span></span>
-             <ChildParentCardsC  dataV={{width:200 ,height:200 ,rounded :'12px' , data:data.whatTheyWant ,refNumber:scrollRef1 , pathNameD:'/choosing-prisoners'}} />
+                <span className='mr-[16px] lg:mr-[120px] text-[20px] '>آنچه میخواهند <span className='text-secondary500'> (کمک های نقدی)</span></span>
+                <ChildParentCardsC  dataV={{width:200 ,height:200 ,rounded :'12px' , data:data.whatTheyWant ,refNumber:scrollRef1 , pathNameD:'/choosing-prisoners'}} />
 
              {/* what you can---------------------------- */}
              <div className='mt-[60px]'>

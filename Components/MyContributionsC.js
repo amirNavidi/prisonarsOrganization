@@ -2,11 +2,13 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import MyContributionsT from "../Template/MyContributionsT";
 import PrisonersHelpT from "../Template/PrisonersHelpT";
+import { FormatNumber } from "../utilities/tomanSeprator";
 const MyContributionsC = ({ setShowData, isDesktop }) => {
         const customerUID = Cookies.get('CustomerUID')
         const token =Cookies.get('token');
         const [total , setTotal]=useState({
-            count:[],
+            count:'',
+            sumAmount:'',
             prisonars:[],
             challenge:[]
         })
@@ -19,9 +21,15 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
                     body:JSON.stringify({token,customerUID})
                 })
             const data =await result.json();
-            const prisonars =await data.backendResponse.filter(item=>item.Type=='Challenge');
-            const challenge =await data.backendResponse.filter(item=>item.Type=='Cash')
+            // console.log(data.backendResponse[0].HelpType,'this is data');
+            
+            const prisonars =await data.backendResponse[0].HelpType.filter(item=>item.TypeHelpNameFa!=="چالش");
+            const challenge =await data.backendResponse[0].HelpType.filter(item=>item.TypeHelpNameFa=="چالش");
+            const count =await data.backendResponse[0].cnt;
+            const sumAmount = data.backendResponse[0].SumAmount
             setTotal({
+                count,
+                sumAmount,
                 prisonars ,
                 challenge
             })
@@ -48,7 +56,7 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
                     <div className='border-l border-primary200 w-1/2 flex flex-col items-center justify-center'>
                         <span className='font-bold'>همیاری های من </span>
                         <div>
-                            <span>12</span>
+                            <span>{total.count}</span>
                             <span>بار</span>
                         </div>
                     </div>
@@ -56,7 +64,7 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
                     <div className=' w-1/2 flex flex-col items-center justify-center'>
                         <span className='font-bold'>پرداخت های من </span>
                         <div>
-                            <span>12</span>
+                            <span>{FormatNumber(total.sumAmount)}</span>
                             <span>ریال</span>
                         </div>
                     </div>
