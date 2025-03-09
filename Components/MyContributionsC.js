@@ -21,7 +21,7 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
                     body:JSON.stringify({token,customerUID})
                 })
             const data =await result.json();
-            // console.log(data.backendResponse[0].HelpType,'this is data');
+          
             
             const prisonars =await data.backendResponse[0].HelpType.filter(item=>item.TypeHelpNameFa!=="چالش");
             const challenge =await data.backendResponse[0].HelpType.filter(item=>item.TypeHelpNameFa=="چالش");
@@ -37,8 +37,7 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
             }
             getTotalData();
         },[])
-        console.log(total,"this is total");
-        
+    
     return (
         <div className='flex flex-col  px-4 lg:px-6'>
              {
@@ -79,26 +78,40 @@ const MyContributionsC = ({ setShowData, isDesktop }) => {
                         <span className='text-[16px] text-secondary600'>چالش ها و پویش هایی که شما در آن مشارکت داشته اید</span>
                     </div>
                 }
-                {/* It will be loop and get props 
-                     name of props IS helpDetails
-                 */}
                  <div className={`flex flex-wrap justify-between ${isDesktop|| 'justify-center'}`}>
-                    {
-                    total.challenge.length> 0 && total.challenge.map(item=>{
+
+                   {
+                    total.challenge.length > 0 && total.challenge.map(challenges => 
+                        Array.isArray(challenges.HelpCachReceipt) && challenges.HelpCachReceipt.length > 0 && 
+                        challenges.HelpCachReceipt.map(challenge => (
+                            <MyContributionsT helpDetails={challenge} key={challenge.id} /> 
+                        ))
+                    )
+                   }
+                 </div>
+
+                 {
+                    total.prisonars.length> 0 && total.prisonars.map(prisoners=>{
                             return (
-                                <MyContributionsT key={item.RelatedUID} helpDetails={item} />
+                                <>
+                                    <span className='text-[20px] mt-8'>
+                                        {prisoners.TypeHelpNameFa}
+                                    </span>
+                                    <div className='flex flex-col items-center lg:flex-row lg:justify-between'>
+                                        {
+                                        Array.isArray(prisoners.HelpCachReceipt) && prisoners.HelpCachReceipt.length >0  && prisoners.HelpCachReceipt.map(prisoner=>{
+                                            return(
+                                                <PrisonersHelpT helpDetails={prisoner} /> 
+                                            )
+                                        })
+                                        }
+                                    </div>
+                                </>
                             )
                         })
                     }
-                 </div>
                  
-                <span className='text-[20px] mt-8'>
-                    زندانیانی که کمک کرده اید
-                </span>
-                 {/* It will be loop and get props 
-                     name of props IS helpDetails
-                 */}
-                 <PrisonersHelpT />
+               
             </div>
             <div></div>
         </div>

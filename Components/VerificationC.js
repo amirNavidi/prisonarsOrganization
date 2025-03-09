@@ -94,10 +94,13 @@ const VerificationC = () => {
             
             if(res.status===200){
                 const data=await res.json();
-                // console.log(data,"this is verification data");
+                const isComplited = data.data[0].IsCompiliteProfile
                 
                 Cookies.set('token',data.data[0].code);
                 Cookies.set('CustomerUID',data.data[0].CustomerUID);
+                Cookies.set('IsComplited',isComplited);
+                
+               
                 // if(nextPage?.whichRoute){
                 //    Cookies.remove('WhichPage'); 
                 //    return router.push(nextPage?.whichRoute)
@@ -144,8 +147,12 @@ const VerificationC = () => {
             console.log(res,"this is res20");
             if(res.status===200){
                 const data=await res.json();
+                const isComplited = data.data[0].IsCompiliteProfile
+                
                 Cookies.set('token',data.data[0].code);
                 Cookies.set('CustomerUID',data.data[0].CustomerUID);
+                Cookies.set('IsComplited',isComplited);
+                
                 if(lastLocation){
                     router.push(lastLocation)
                 }else{

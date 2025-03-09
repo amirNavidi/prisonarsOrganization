@@ -1,8 +1,9 @@
 import  {APICaller}  from "../../utilities/APICaller";
 
 export default async function handler(req,res) {
+    const {TypeHelpCategory}=req.body;
     try{
-        const backendResponse =await APICaller('GetTypeHelps',{"TypeHelpCategory":""})
+        const backendResponse =await APICaller('GetTypeHelps',{TypeHelpCategory})
         return res.status(200).json({message :' OK ' ,backendResponse})
     }catch(err){
         console.log(err);

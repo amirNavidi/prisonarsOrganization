@@ -20,7 +20,8 @@ export default function PaymentDetailsC() {
         setErr('');
       };
 
-      
+      const isComplited =Cookies.get('IsComplited');
+
       const payHandler=()=>{
         if(!checked){
             setErr('لطفا موافقت خود با قوانین را اعلام بفرمایید');
@@ -82,10 +83,15 @@ export default function PaymentDetailsC() {
                 <button style={{border:`1px solid ${howPay==1?'#5486ea':'#bfbfbf'}`}} onClick={()=>howIsPay(1)} className='flex justify-start items-center pr-5 rounded-[8px] w-[95%] h-[56px] mx-auto'>
                      <input  onChange={() => howIsPay(1)} checked={howPay==1?true:false} type="radio" className="cursor-pointer w-5 h-5"/><label style={{color:howPay==1?'#5486ea':'#bfbfbf'}} className={`cursor-pointer text-[12px] mr-2`}>میخواهم ناشناس پرداخت کنم </label>
                 </button>
-                <button style={{border:`1px solid ${howPay==2?'#5486ea':'#bfbfbf'}`}} onClick={()=>howIsPay(2)} className='flex my-8 justify-start items-center pr-5 rounded-[8px] w-[95%] h-[56px] mx-auto'>
-                     <input  onChange={() => howIsPay(2)} checked={howPay==2?true:false} type="radio" className="cursor-pointer w-5 h-5"/><label style={{color:howPay==2?'#5486ea':'#bfbfbf'}} className={`cursor-pointer text-[12px] mr-2`}>میخواهم نام خودم نمایش داده شود </label>
+                <button style={{border:`1px solid ${howPay==2?'#5486ea':'#bfbfbf'}`}} onClick={()=>isComplited&&isComplited==1&&howIsPay(2)} className='flex my-8 justify-start items-center pr-5 rounded-[8px] w-[95%] h-[56px] mx-auto'>
+                     <input disabled={(isComplited&&isComplited==0)?true:false} onChange={() => howIsPay(2)} checked={howPay==2?true:false} type="radio" className="cursor-pointer w-5 h-5"/><label style={{color:howPay==2?'#5486ea':'#bfbfbf'}} className={`cursor-pointer text-[12px] mr-2`}>میخواهم نام خودم نمایش داده شود </label>
                 </button>
-                <p className='px-4 text-[12px] text-gray-500'>در صورت تمایل به ارسال نام خود <Link href={'#'}><span className='text-primary500 cursor-pointer'>اطلاعات کاربری</span></Link>  خود را تکمیل کنید.</p>
+                
+                {
+                   isComplited&&isComplited==0&&
+                   <p className='px-4 text-[12px] text-gray-500'>در صورت تمایل به ارسال نام خود <Link href={'/profile'}><span className='text-primary500 cursor-pointer'>اطلاعات کاربری</span></Link>  خود را تکمیل کنید.</p>
+                }
+                
 
 
                 <button onClick={payHandler} className='bg-primary400 mt-10 mb-2  rounded-[10px] text-white w-6/12 h-[56px]'>

@@ -10,11 +10,15 @@ const LandingPageC = () => {
         challenge:[],
         organizations:[]
     })
-    
+   
     useEffect(() => {
         const getCardsData = async () => {
             try {
-                const response = await fetch('/api/get-cards-infoes');
+                const response = await fetch('/api/get-cards-infoes',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({"TypeHelpCategory":"Cash,Company,Service"})
+                });
                 const fetchedData = await response.json();                
                 const categorizedData = {
                     whatTheyWant: fetchedData.backendResponse.filter(item => item.TypeHelpCategory === "Cash"),

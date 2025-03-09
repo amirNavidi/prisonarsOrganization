@@ -57,7 +57,7 @@ const MyPaymentsC = ({ setShowData, isDesktop }) => {
                 }
                 {returendData?.length > 0 && (
                     (active === 1 ? status.success : active === 2 ? status.faild : []).map(item => (
-                         <MyPaymentT key={item.CategoryRelatedUID} returendData={item} />
+                         <MyPaymentT key={item.HelpRelatedUID} returendData={item} />
                     ))
                 )}
             </div>
