@@ -17,7 +17,7 @@ const LandingPageC = () => {
                 const response = await fetch('/api/get-cards-infoes',{
                     method:'POST',
                     headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({"TypeHelpCategory":"Cash,Company,Service"})
+                    body:JSON.stringify({"TypeHelpCategory":"Cash,Company,Service,Challenge"})
                 });
                 const fetchedData = await response.json();                
                 const categorizedData = {
@@ -32,7 +32,6 @@ const LandingPageC = () => {
                 console.error("Error fetching data:", error);
             }
         };
-
         getCardsData();
     }, []);
 

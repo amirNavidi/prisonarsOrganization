@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import AccordionT from "../Template/AccordionT";
 
 const FilterC = ({setShowFilter , showFilter}) => {
-    const [lacation , setLocation] =useState({
-        provience:[] , 
+    const [location , setLocation] =useState({
+        province:[] , 
         city:[]
     })
     const [selectedCities  , setSelectedCities] =useState([]);
@@ -18,7 +18,7 @@ const FilterC = ({setShowFilter , showFilter}) => {
         setLocation((prev)=>{
             return {
                 ...prev , 
-                provience:data.data
+                province:data.data
             }
         })
         
@@ -33,9 +33,10 @@ const FilterC = ({setShowFilter , showFilter}) => {
         if(setShowFilter){
             document.body.style.overflow='hidden'
         }
-        window.scrollTo(0,0)
+        window.scrollTo(0,0);
     },[showFilter])
-
+    console.log(location.province);
+    
     return (
         <div onClick={()=>setShowFilter(false)} className='fixed inset-0 z-[2000] w-screen h-screen flex justify-center items-end md:items-center bg-black/10 backdrop-blur-sm '>
             <div onClick={(ev)=>ev.stopPropagation()} className=' flex flex-col w-11/12 md:w-9/12 lg:w-4/12 h-[400px] bg-white rounded-t-[16px] md:rounded-[16px] overflow-y-scroll scrollbar-hide'>
@@ -52,7 +53,7 @@ const FilterC = ({setShowFilter , showFilter}) => {
 
                     {/* proviance ------------------------------ */}
                     <div>
-                        <AccordionT />
+                        <AccordionT provinces={location.province} />
                     </div>
                 </div>
 

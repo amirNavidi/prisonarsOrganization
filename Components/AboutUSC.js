@@ -4,52 +4,29 @@ import Image from "next/image";
 
 
 const AboutUSC = () => {
-
-    // const [hasOverflow, setHasOverflow] = useState(false);
-
-
     
-    //     useEffect(() => {
-    //         const checkOverflow = () => {
-    //             if (refNumber.current) {
-    //                 setHasOverflow(refNumber.current.scrollWidth > refNumber.current.clientWidth);
-    //             }
-    //         };
-    //         checkOverflow();
-    //         window.addEventListener("resize", checkOverflow);
-    //         return () => window.removeEventListener("resize", checkOverflow);
-    //     }, []);
-        
-    
-    //     useEffect(() => {
-    //         const handlePreventScroll = (event) => {
-    //             if (refNumber.current && refNumber.current.matches(":hover") && hasOverflow) {
-    //                 event.preventDefault();
-    //             }
-    //         };
-    //         document.addEventListener("wheel", handlePreventScroll, { passive: false });
-    //         return () => document.removeEventListener("wheel", handlePreventScroll);
-    //     }, [hasOverflow]);
-    
-    // const handleWheelScroll = (event) => {
-    //     if (refNumber.current && refNumber.current.matches(":hover") && hasOverflow) {
-    //         event.preventDefault();
-    //         refNumber.current.scrollLeft -= event.deltaY * 3;
-    //     }
-    // };
     const [data, setData]=useState({
-        organizations:[]
+        organizations:[], 
+        cashDet:[],
+        serviceDet:[]
     })
     
     useEffect(() => {
         const getCardsData = async () => {
             try {
-                const response = await fetch('/api/get-cards-infoes');
-                const fetchedData = await response.json();                
+                const response = await fetch('/api/get-cards-infoes',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({"TypeHelpCategory":"Company,CashDet,ServiceDet"})
+                });
+;
+                const fetchedData = await response.json();  
                 const categorizedData = {
                     organizations: fetchedData.backendResponse.filter(item => item.TypeHelpCategory === "Company"),
+                    cashDet: fetchedData.backendResponse.filter(item => item.TypeHelpCategory === "CashDet"),
+                    serviceDet:fetchedData.backendResponse.filter(item => item.TypeHelpCategory === "ServiceDet"),
                 };
-
+  
                 setData(prev => ({ ...prev, ...categorizedData }));
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -58,7 +35,10 @@ const AboutUSC = () => {
 
         getCardsData();
     }, []);
-    const scrollRef4 = useRef(null);
+    
+    const scrollRef1 = useRef(null);
+    const scrollRef2 = useRef(null);
+    const scrollRef3 = useRef(null);
     return (
         <div className="flex flex-col  mb-28">
 
@@ -76,8 +56,16 @@ const AboutUSC = () => {
                 <span className='text-[20px] font-semibold mt-10 lg:mt-0'>خدمات ما</span>
                 <span className='text-[14px] lg:text-[16px] text-secondary600 mt-4'>ما با هدف ایجاد حمایت‌های جامع برای زندانیان و خانواده‌های آنان، خدمات متنوعی را به افراد نیازمند ارائه می‌دهیم :</span>
 
+                <span className='text-[12px] lg:text-[20px] text-primary400 font-medium mt-12 '>خدمات نقدی</span>
+                <div className='mt-3 mb-3 mr-[-16px] lg:mr-[-120px] '>
+                    <ChildParentCardsC  dataV={{width:200 ,height:200 ,rounded :'12px' , data:data.cashDet , refNumber:scrollRef1 ,}} />
+                </div>
 
-                <span className='text-[12px] lg:text-[20px] text-primary400 font-medium mt-12 mb-3'>خدمات نقدی</span>
+
+                <span className='text-[12px] lg:text-[20px] text-primary400 font-medium mt-12 '>خدمات غیر نقدی</span>
+                <div className='mt-3 mb-3 mr-[-16px] lg:mr-[-120px] '>
+                    <ChildParentCardsC  dataV={{width:200 ,height:200 ,rounded :'12px' , data:data.serviceDet , refNumber:scrollRef2 ,}} />
+                </div>
               
 
 
@@ -85,7 +73,7 @@ const AboutUSC = () => {
             {/* connected organization ---------------------------------- */}
                 <div className='mt-[60px] mb-[100px] mr-[-16px] lg:mr-[-120px] '>
                     <span className='mr-[16px] lg:mr-[120px] text-[20px] font-medium'>سازمان ها و نهاد های همکار</span>
-                    <ChildParentCardsC dataV={{width:160 ,height:160 ,rounded :'50%' , data:data.organizations ,refNumber:scrollRef4 ,type:4}} />
+                    <ChildParentCardsC dataV={{width:160 ,height:160 ,rounded :'50%' , data:data.organizations ,refNumber:scrollRef3 ,type:4}} />
                 </div>
 
 
