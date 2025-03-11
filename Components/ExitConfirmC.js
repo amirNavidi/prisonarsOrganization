@@ -1,7 +1,7 @@
 const ExitConfirmC = () => {
     return (
         <div>
-            
+            this is test
         </div>
     );
 };
