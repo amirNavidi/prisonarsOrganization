@@ -8,12 +8,12 @@ import { successToast } from '../Template/ToastifyT';
 import { useRouter } from 'next/router';
 import TokenChecker from '../utilities/TokenChecher';
 import PulseLoader from "react-spinners/PulseLoader";
+import ExitConfirmC from './ExitConfirmC';
 
 
 const ProfileC = () => {
     const [phoneNumber , setPhoneNumber] =useState('');
     const ID =Cookies.get('Id');
-    const customerUID = Cookies.get('CustomerUID');
     // validation---------------------------------
     const router=useRouter();
     const [load , setLoad] =useState(true);
@@ -123,21 +123,9 @@ const ProfileC = () => {
                 })
             }
         },[showData]);
+        const [showExit , setShowExit] =useState(false);
           const exitHandler =async()=>{
-            const result = await fetch('/api/get-exit',{
-                method:'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON.stringify({
-                    token ,
-                    customerUID
-                })
-            })
-            const data =await result.json();
-            if(data.status==200){
-                successToast('خروج موفق');
-                router.push('/')
-            }
-            console.log(data,"exit data");   
+            setShowExit(true) 
           }  
                 
     if(load){
@@ -152,7 +140,11 @@ const ProfileC = () => {
         )
     }
     return (
+        
         <div className='flex flex-col lg:flex-row  xl:mx-[135px] m-4 justify-center lg:justify-between'>
+            {
+                showExit&&<ExitConfirmC showExit={showExit} setShowExit={setShowExit} />
+            }
                {/*First Parent ------------------------------  */}
                <div className='flex flex-col pb-6 mb-24 lg:mb-4 lg:w-4/12 py-4 border border-secondary600 rounded-[10px]'>
                    <div className='flex justify-between px-9 h-[64px] items-center'>

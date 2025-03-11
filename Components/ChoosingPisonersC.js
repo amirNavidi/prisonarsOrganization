@@ -11,9 +11,10 @@ const ChoosingPisonersC = () => {
         if(showFilter){
             document.body.style.overflow='hidden'
             window.scrollTo(0,0);
-       }else{
-            document.body.style.overflowY='scroll'
        }
+       return () => {
+        document.body.style.overflowY = 'auto ';
+    };
     },[showFilter])
     
 

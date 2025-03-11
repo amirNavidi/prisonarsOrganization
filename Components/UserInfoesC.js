@@ -4,6 +4,7 @@ import { DateInput } from "react-hichestan-datetimepicker";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { errorToast, successToast } from "../Template/ToastifyT";
+import ExitConfirmC from "./ExitConfirmC";
 
 
 
@@ -93,24 +94,15 @@ const UserInfoesC = ({ setShowData, isDesktop }) => {
         })
     }
         const router =useRouter();
+        const [showExit , setShowExit] =useState(false);
         const exitHandler =async()=>{
-        const result = await fetch('/api/get-exit',{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({
-                token ,
-                customerUID
-            })
-        })
-        const data =await result.json();
-        if(data.status==200){
-            successToast('خروج موفق');
-            router.push('/')
-        }
-        console.log(data,"exit data");   
-              }
+        setShowExit(true) 
+        }  
     return (
         <div className='flex flex-col'>
+             {
+                showExit&&<ExitConfirmC showExit={showExit} setShowExit={setShowExit} />
+            }
             {
                 isDesktop||
                 <div className="flex">
