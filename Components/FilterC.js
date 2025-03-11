@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import AccordionT from "../Template/AccordionT";
 
-const FilterC = ({setShowFilter , showFilter}) => {
+const FilterC = ({setShowFilter , setPrisoners, showFilter}) => {
     const [location , setLocation] =useState({
         province:[] , 
         city:[]
     })
-    const [selectedCities  , setSelectedCities] =useState([]);
+   
 
     const getProvince =async()=>{
       const result =await fetch('/api/get-location',{
@@ -29,14 +29,7 @@ const FilterC = ({setShowFilter , showFilter}) => {
        getProvince();
     },[])
 
-    useEffect(()=>{
-        if(setShowFilter){
-            document.body.style.overflow='hidden'
-        }
-        window.scrollTo(0,0);
-    },[showFilter])
-    console.log(location.province);
-    
+
     return (
         <div onClick={()=>setShowFilter(false)} className='fixed inset-0 z-[2000] w-screen h-screen flex justify-center items-end md:items-center bg-black/10 backdrop-blur-sm '>
             <div onClick={(ev)=>ev.stopPropagation()} className=' flex flex-col w-11/12 md:w-9/12 lg:w-4/12 h-[400px] bg-white rounded-t-[16px] md:rounded-[16px] overflow-y-scroll scrollbar-hide'>
@@ -47,13 +40,13 @@ const FilterC = ({setShowFilter , showFilter}) => {
                             <span className='mr-2'>فیلتر ها</span>
                         </div>
                         <button onClick={()=>{setShowFilter(false)}}>
-                         <svg className='ml-5' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="#000" fillRule="evenodd" d="M420.48 121.813L390.187 91.52L256 225.92L121.813 91.52L91.52 121.813L225.92 256L91.52 390.187l30.293 30.293L256 286.08l134.187 134.4l30.293-30.293L286.08 256z" strokeWidth="13" stroke="#000"/></svg>
+                           <svg className='ml-5' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="#000" fillRule="evenodd" d="M420.48 121.813L390.187 91.52L256 225.92L121.813 91.52L91.52 121.813L225.92 256L91.52 390.187l30.293 30.293L256 286.08l134.187 134.4l30.293-30.293L286.08 256z" strokeWidth="13" stroke="#000"/></svg>
                         </button>
                     </div>
 
                     {/* proviance ------------------------------ */}
                     <div>
-                        <AccordionT provinces={location.province} />
+                        <AccordionT setPrisoners={setPrisoners} setShowFilter={setShowFilter}  provinces={location.province} />
                     </div>
                 </div>
 

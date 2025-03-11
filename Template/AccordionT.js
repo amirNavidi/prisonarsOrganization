@@ -1,22 +1,60 @@
 import { useState } from "react";
 
-const AccordionT = ({ provinces }) => {
+const AccordionT = ({ provinces , setPrisoners , setShowFilter }) => {
     const [openIndex, setOpenIndex] = useState(null);
-    const [selectedProvinces, setSelectedProvinces] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [Cities, setCities] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedGender, setSelectedGender] = useState(null);
 
     const toggleAccordion = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
 
+    const getCities = async (province) => {
+        const result = await fetch('/api/get-location', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ location: 'GetCitys', ProvinceID: province })
+        });
+
+        const returnedData = await result.json();
+        setCities(returnedData.data);
+    };
+
     const handleSelectProvince = (id) => {
-        setSelectedProvinces((prev) =>
-            prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
-        );
+        setSelectedProvince(id);
+        getCities(id);
+        setOpenIndex(null); 
+    };
+
+    const handleSelectCity = (id) => {
+        setSelectedCity(id);
+        setOpenIndex(null);
+    };
+
+    const handleSelectGender = (gender) => {
+        setSelectedGender(gender);
+        setOpenIndex(null); 
+    };
+
+    const filterHandler =async()=>{
+        if(selectedCity||selectedGender){
+            const response =await fetch('/api/get-prisoners',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({PrisonerCity:selectedCity, PrisonerGrnder:selectedGender})
+            }); 
+            const data = await response.json();
+            setPrisoners(data.backendResponse);
+            setShowFilter(false);
+            
+        }
     };
 
     return (
         <div id="accordion-collapse">
-            {/* Province -------------------------------*/}
+            {/* Province ------------------------------- */}
             <div>
                 <h2>
                     <button
@@ -47,9 +85,9 @@ const AccordionT = ({ provinces }) => {
                             {provinces.map((province) => (
                                 <label key={province.ProvinceID} className="flex items-center gap-2 p-2 cursor-pointer">
                                     <input
-                                        type="checkbox"
+                                        type="radio"
                                         value={province.ProvinceID}
-                                        checked={selectedProvinces.includes(province.ProvinceID)}
+                                        checked={selectedProvince === province.ProvinceID}
                                         onChange={() => handleSelectProvince(province.ProvinceID)}
                                     />
                                     {province.ProvinceName}
@@ -60,7 +98,7 @@ const AccordionT = ({ provinces }) => {
                 </div>
             </div>
 
-            {/* City ----------------------------------------------------------*/}
+            {/* City ---------------------------------------------------------- */}
             <div>
                 <h2>
                     <button
@@ -87,12 +125,24 @@ const AccordionT = ({ provinces }) => {
                 </h2>
                 <div className={`overflow-hidden transition-all duration-300 ${openIndex === 1 ? "block" : "hidden"}`}>
                     <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                        <p>انتخاب شهر</p>
+                        {Cities &&
+                            Cities.map((city) => (
+                                <label key={city.CityID} className="flex items-center gap-2 p-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="city"
+                                        value={city.CityID}
+                                        checked={selectedCity === city.CityID}
+                                        onChange={() => handleSelectCity(city.CityID)}
+                                    />
+                                    {city.CityName}
+                                </label>
+                            ))}
                     </div>
                 </div>
             </div>
 
-            {/*Gender------------------------------------------------ */}
+            {/* Gender ------------------------------------------------ */}
             <div>
                 <h2>
                     <button
@@ -119,16 +169,35 @@ const AccordionT = ({ provinces }) => {
                 </h2>
                 <div className={`overflow-hidden transition-all duration-300 ${openIndex === 2 ? "block" : "hidden"}`}>
                     <div className="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                        <p>انتخاب جنسیت</p>
+                        <label className="flex items-center gap-2 p-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="gender"
+                                value="1"
+                                checked={selectedGender === "male"}
+                                onChange={() => handleSelectGender("male")}
+                            />
+                            مرد
+                        </label>
+                        <label className="flex items-center gap-2 p-2 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="gender"
+                                value="2"
+                                checked={selectedGender === "female"}
+                                onChange={() => handleSelectGender("female")}
+                            />
+                            زن
+                        </label>
                     </div>
                 </div>
             </div>
+            <button onClick={filterHandler} className='block text-white py-2 px-6 rounded-[8px] bg-primary500 mt-10 mx-auto'>
+                فیلتر
+            </button>
         </div>
     );
 };
 
 export default AccordionT;
-
-
-
 

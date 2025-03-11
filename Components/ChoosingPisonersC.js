@@ -7,6 +7,16 @@ import FilterC from "./FilterC";
 const ChoosingPisonersC = () => {
     const [prisoners , setPrisoners] =useState([]);
     const [showFilter , setShowFilter] =useState(false);
+    useEffect(()=>{
+        if(showFilter){
+            document.body.style.overflow='hidden'
+            window.scrollTo(0,0);
+       }else{
+            document.body.style.overflowY='scroll'
+       }
+    },[showFilter])
+    
+
 
     useEffect(()=>{
         const getPrisoners =async()=>{
@@ -23,7 +33,7 @@ const ChoosingPisonersC = () => {
     return (
         <>
             {
-                showFilter && <FilterC showFilter={showFilter} setShowFilter={setShowFilter}/>
+                showFilter && <FilterC setPrisoners={setPrisoners} showFilter={showFilter} setShowFilter={setShowFilter}/>
             }
             <div className="pr-4 ml-10 mb-28 mr-4 xl:mr-[120px] mt-10 xl:mt-24">
                 <span className="text-[20px]  text-secondary800 font-semibold">کمک به آزادی زندانیان کم توان</span>
@@ -35,7 +45,7 @@ const ChoosingPisonersC = () => {
                     <span className='mr-2'>فیلتر ها</span>
                 </button>
                 {/* prisoners --------------------------------------- */}
-                <div className='w-full flex justify-center flex-wrap lg:justify-between'>
+                <div className='w-full flex justify-center flex-wrap md:justify-between'>
                 
                     {                    
                     prisoners?.length>0&&prisoners.map(item=>{

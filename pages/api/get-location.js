@@ -3,7 +3,12 @@ import  {APICaller}  from "../../utilities/APICaller";
 export default async function (req , res){
 try{
     const {location}=req.body;
-    const backendResponse =await APICaller(location);
+    const provinces = req.body.ProvinceID ? req.body.ProvinceID :null
+    const backendResponse =await APICaller(location,provinces&&{ProvinceID:provinces});
+
+    
+    console.log(backendResponse ,"this is location log");
+    
     if(backendResponse){
         return res.status(200).json({data:backendResponse});
     }else{
