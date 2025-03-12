@@ -33,7 +33,6 @@ const FilterC = ({setShowFilter , setPrisoners, showFilter}) => {
     return (
         <div onClick={()=>setShowFilter(false)} className='fixed inset-0 z-[2000] w-screen h-screen flex justify-center items-end md:items-center bg-black/10 backdrop-blur-sm '>
             <div onClick={(ev)=>ev.stopPropagation()} className=' flex flex-col w-11/12 md:w-9/12 lg:w-4/12 h-[400px] bg-white rounded-t-[16px] md:rounded-[16px] overflow-y-scroll scrollbar-hide'>
-                <div className='felx '>
                     <div className='flex items-center justify-between text-black h-[60px] border-b-2 border-gray '>
                         <div className='flex'>
                             <svg className='mr-5' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="black" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="1" d="M21.25 12H8.895m-4.361 0H2.75m18.5 6.607h-5.748m-4.361 0H2.75m18.5-13.214h-3.105m-4.361 0H2.75m13.214 2.18a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm-9.25 6.607a2.18 2.18 0 1 0 0-4.36a2.18 2.18 0 0 0 0 4.36Zm6.607 6.608a2.18 2.18 0 1 0 0-4.361a2.18 2.18 0 0 0 0 4.36Z"/></svg>
@@ -44,15 +43,14 @@ const FilterC = ({setShowFilter , setPrisoners, showFilter}) => {
                         </button>
                     </div>
 
-                    {/* proviance ------------------------------ */}
-                    <div>
+                    {/* province ------------------------------ */}
+                    <div className="overflow-y-auto max-h-[calc(100%-60px)]">
                         <AccordionT setPrisoners={setPrisoners} setShowFilter={setShowFilter}  provinces={location.province} />
                     </div>
-                </div>
-
             </div>
         </div>
     );
 };
 
 export default FilterC;
+
